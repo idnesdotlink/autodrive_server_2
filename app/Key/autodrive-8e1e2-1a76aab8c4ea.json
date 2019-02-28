@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "autodrive-8e1e2",
+  "private_key_id": "1a76aab8c4eac4c45f704b837cb378f4348f266e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCWexaWWsCD17ey\nT1p4hHih/yWXDk1bz9Q9VhTcyigdhBZK3NJoTOY+YPESZM+nasQd5K4mG6WX0end\nc3L3ElzHO3oi70M9tVpOAgSA2YbO5pniRhTdT2aubUBmk5DdCTtR/+XTMTghzkgy\npQATkkTIgpl8XPDX9kfIxPpUrbNc17oD+4E7ugq+tDicBezGxblBvmk/kivgrhgC\n5UqoJ1jBG63Q5USRx2bVX2s+Y7KbA1Tut+eDeRpAIcir2tlL2DNhKFO5aEccJ/u5\nHo5NKwm96fRyzx0xMgYZ3cHDWGUQR/+RVp6/t9KlpV7ntPrIoeBgCcIiBEB/T7Jw\n1eYJiPBPAgMBAAECggEAM9P5F5fyLnahwjwqgM+/bKwgGkLGyhRumSGI1fKalm/j\n7azYmyvBMULaROeLzbGsEk+s21syUXPvBGK6+fXNFqGZk2as1hgcHjn7qxVApQov\nfgt9LCwoxXLDd5Djl/2R/NASLAcLujj+DNNfj14VaqnwizDHkto0JyYQwhGBcTwk\nXWMo8qoEYiUFv/x63eqDK+w77Lls0Vz2/dIL/OZCYd5pIBsgTG6IILPsUihc1Fxn\nisfr7p2Xci0uP1cGLsibolmClRWE9IeEJ/u6V4g8s3aAeVXFcsOnD6RIUrku1W81\njXl0z6RZMwS1DuBIj2yV1stNodeEb2zKcfFobewxAQKBgQDPyorcvn0af4kuKywH\nHAje0AFuJZJ6F4ltnnCyUyBeHKpF8K54tPxJoG8HhjGzZXA3wZw6QbRbnOXmRCqz\nqfdhgHyiR9MeI0FrvESkHqUyptZ4vNu2Q1BS6MZINww9bbc6JU285sRwbEFK54Jd\nxdDSYgLAvNYRaiKUzwdWdCz+7wKBgQC5ZK3cLYq03GP56ortlCzZdsfTNsp2dfec\n+lUuaiRuAak3n5CSKXmhaW1FNcKuLXCurIwQFJy1YrdpOgkXo52mnD7wvr+8TC/p\nUaQ4ckUw6wjp6A4AFBzWIay6qNDJhDFJkLOdGwkmWSu7llgAUgM3DjXF3LTlGlWD\n/fJfgM0koQKBgQCJrGsBAv0kt2eOvW/4bey6pBqufhpk5n9Zr+Z/YHBLqrZujJ8s\nvs2BgtjNpW38rLMDXjZCqxHyuSvhuzyHuY98fIMXinsotrc7yIu6KcvOmZf0ez0f\nr83igPQPGNn1QWJrFhhBlqyEyFUiae2Ib+6B1gp45ST4eNfcvKbh8yt05QKBgHEg\nBA7UI01VJhQ7j+aEghF4L1qslkJOnXdGMXAPCIevr8fnL9pgQH3DzQ9sTIzn4VhU\npWqyiSUNRYmKBj5MckhWEvnoCysk+h9O1/wxjhLZeCjylohpvWbUSYfktvIgHcsb\n5t24v46M3uiqRqx7XsbbfuhrUl5yATh3Xsvz1jnBAoGBALmwcfBmLZ6OJm+3QQvb\nVUHUKSZ8TK3djk8jR/NjcJ3P8s61y99vQMiszhy0wk3QyJIWG/iJFnaAswZ+2I7t\ndqVOFKfylGe06SNKbtswD2g7YsP4Tvw1olbaNkQfMNcYUsaQqtw4JxDo/xBy1pW2\n8qCTYdnLRBgmhYHCfM1SJ+EL\n-----END PRIVATE KEY-----\n",
+  "client_email": "autodrive-8e1e2@appspot.gserviceaccount.com",
+  "client_id": "100922861345276540256",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/autodrive-8e1e2%40appspot.gserviceaccount.com"
+}
