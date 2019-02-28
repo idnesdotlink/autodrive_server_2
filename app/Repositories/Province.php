@@ -3,4 +3,5 @@
 namespace Autodrive\Repositories;
 
 class Province {
+    
 }

@@ -21,9 +21,9 @@ Route::get('/', function () {
 
 Route::get('/test/{id}', function (Request $request, Membership $ms) {
 
-dd($ms->lev());
+// dd($ms->lev());
 
-dd(config('level.1.name'));
+// dd(config('level.1.name'));
 
     $id = $request->id;
     /* $request->validate([
