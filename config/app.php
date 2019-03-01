@@ -175,6 +175,8 @@ return [
         Autodrive\Providers\EventServiceProvider::class,
         Autodrive\Providers\RouteServiceProvider::class,
 
+        Dyrynda\Database\LaravelEfficientUuidServiceProvider::class,
+
     ],
 
     /*

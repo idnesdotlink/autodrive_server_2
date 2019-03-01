@@ -15,10 +15,10 @@ class CreateDistrictsTable extends Migration
     {
         Schema::create('districts', function (Blueprint $table) {
             $table->char('id', 7)->unique();
-            $table->char('regencyId', 4);
-            $table->string('name', 128);
+            $table->char('regency_id', 4);
+            $table->string('name', 64);
             $table->timestamps();
-            $table->index(['id', 'regencyId']);
+            $table->index(['id', 'regency_id']);
         });
     }
 

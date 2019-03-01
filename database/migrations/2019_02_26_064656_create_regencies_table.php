@@ -14,11 +14,11 @@ class CreateRegenciesTable extends Migration
     public function up()
     {
         Schema::create('regencies', function (Blueprint $table) {
-            $table->char('id', 2)->unique();
-            $table->char('provinceId', 2);
-            $table->string('name', 128);
+            $table->char('id', 4)->unique();
+            $table->char('province_id', 2);
+            $table->string('name', 64);
             $table->timestamps();
-            $table->index(['id', 'provinceId']);
+            $table->index(['id', 'province_id']);
         });
     }
 

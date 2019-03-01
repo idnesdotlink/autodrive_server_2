@@ -8,14 +8,37 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Dyrynda\Database\Support\GeneratesUuid;
+use \Ramsey\Uuid\Uuid;
 
 class Member extends Authenticatable
 {
-    use Notifiable;
-    // protected $fillable = ['id', 'parent_id', 'name', 'qualification_id', 'level_id'];
-    protected $guarded = [];
+    use
+    Notifiable,
+    GeneratesUuid
+    ;
 
-    protected $appends = ['descendants_count, ancestors, descendants'];
+    protected $guarded = [];
+    protected $appends = ['descendants_count', 'ancestors', 'descendants'];
+    protected $cast = ['member_id' => 'uuid'];
+
+    public function uuidColumn() {
+        return 'member_id';
+    }
+
+    /* public function getMemberIdAttribute($value) {
+        return Uuid::uuid4()->fromBytes($value)->toString();
+    } */
+
+    /* public function setMemberIdAttribute($value) {
+        return Uuid::uuid4()->fromString($value)->getBytes();
+    } */
+
+    public function hasCast($key, $types = null) {
+        if($key === $this->uuidColumn() && $types === 'uuid') return true;
+        // dd($types);
+        return parent::hasCast($key, $types);
+    }
 
     public function parent()
     {
@@ -27,67 +50,31 @@ class Member extends Authenticatable
         return $this->hasMany(Member::class, 'parent_id', 'id');
     }
 
-    public function member_qualification() {
-        return $this->hasMany(MemberQualification::class, 'parent_id', 'id');
+    public function grand_children() {
+        return $this->children()->with('grand_children');
     }
 
-    public function query_increment_qualification() {
-        $db = DB::connection($this->connection);
-        $id = $this->attributes['id'];
-        $query = '
-            UPDATE members
-            SET qualification = qualification + 1
-            WHERE id = ' . $id . '
-        ';
-        $db->update($query);
-        $query = '
-            SELECT qualification
-            FROM members
-            WHERE id = ' . $id . '
-        ';
-        $qualification = new Collection($db->select($query));
-        $qualification = $qualification->first()->qualification;
-        $return = new Collection([
-            'from' => $qualification - 1, 'to' => $qualification
-        ]);
-        return $return;
+    public function increment_qualification() {
+        $this->increment('qualification_id');
+        return $this->qualification_id;
     }
 
     public function can_increment_qualification() {
         $db = DB::connection($this->connection);
         $id = $this->attributes['id'];
-        $max = 9;
-        $current = $this->attributes['qualification'];
-        if ($current >= $max) return false;
-        $next = $current + 1;
-        $required = config('level.' . $next . '.requirement');
+        $max = sizeof(collect(config('level')));
+        $qualification_id = $this->attributes['qualification_id'];
+        if ($qualification_id >= $max) return false;
+        $required = config('level.' . ($qualification_id + 1) . '.requirement');
         $count = MemberQualification::get_qualification('q' . $current, $id);
         return ($count >= $required);
     }
 
-    public function add_root() {
-
-    }
-
     public function getSiblingsAttribute() {
-        $db = DB::connection($this->connection);
-        $id = $this->attributes['id'];
-        $table = $this->table;
-        $parent = '
-            SELECT parent_id FROM ' . $table . '
-            WHERE id = ' . $id . '
-            LIMIT 1
-        ';
-        $parent = new Collection($db->select($parent));
-        $parent_id = $parent->first()->parent_id;
-        if ($parent->isEmpty() || $parent_id === NULL) return new Collection([]);
-        $siblings = '
-            SELECT * FROM ' . $table . '
-            WHERE parent_id = ' . $parent_id . '
-            AND id != ' . $id . '
-        ';
-        $siblings = new Collection($db->select($siblings));
-        return $siblings;
+        return $this->select('*')
+            ->where('parent_id', $this->parent_id)
+            ->whereNotIn('id', [$this->id])
+            ->get();
     }
 
     public function getDescendantsAttribute() {

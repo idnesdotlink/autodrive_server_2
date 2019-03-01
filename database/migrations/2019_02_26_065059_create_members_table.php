@@ -16,8 +16,8 @@ class CreateMembersTable extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->mediumInteger('parent_id')->unsigned()->nullable();
-            $table->string('member_id', 16)->unique()->nullable();
-            $table->string('parent_member_id', 16)->nullable();
+            $table->uuid('member_id')->index()->nullable();
+            $table->uuid('parent_member_id')->nullable();
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();

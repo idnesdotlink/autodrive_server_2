@@ -14,11 +14,10 @@ class CreatePurchasesTable extends Migration
     public function up()
     {
         Schema::create('purchases', function (Blueprint $table) {
-            $table->char('id', 7)->unique();
-            $table->char('regencyId', 4);
-            $table->string('name', 128);
+            $table->bigIncrements('id');
+            $table->uuid('purchase_id')->unique();
             $table->timestamps();
-            $table->index(['id', 'regencyId']);
+            $table->double('amount', 10, 2);
         });
     }
 

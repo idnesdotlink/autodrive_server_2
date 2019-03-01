@@ -14,11 +14,11 @@ class CreateVillagesTable extends Migration
     public function up()
     {
         Schema::create('villages', function (Blueprint $table) {
-            $table->char('id', 7)->unique();
-            $table->char('regencyId', 4);
-            $table->string('name', 128);
+            $table->char('id', 10)->unique();
+            $table->char('district_id', 7);
+            $table->string('name', 64);
             $table->timestamps();
-            $table->index(['id', 'regencyId']);
+            $table->index(['id', 'district_id']);
         });
     }
 
