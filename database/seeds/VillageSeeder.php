@@ -10,9 +10,9 @@ class VillageSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Address $address)
     {
         //
-        Address::seeder('Village');
+        $address->seeder('Village');
     }
 }

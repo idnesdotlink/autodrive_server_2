@@ -15,9 +15,9 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->mediumIncrements('id');
+            $table->uuid('member_uuid')->index();
             $table->mediumInteger('parent_id')->unsigned()->nullable();
-            $table->uuid('member_id')->index()->nullable();
-            $table->uuid('parent_member_id')->nullable();
+            $table->uuid('parent_member_uuid')->nullable();
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
@@ -29,9 +29,9 @@ class CreateMembersTable extends Migration
             $table->enum('gender', ['L', 'P'])->default('L');
             $table->char('village_id', 10)->nullable();
             $table->text('address')->nullable();
-            $table->tinyInteger('level_id')->unsigned()->nullable();
-            $table->tinyInteger('qualification_id')->unsigned()->nullable();
-            $table->mediumInteger('children_counter')->unsigned()->nullable();
+            $table->tinyInteger('level_id')->unsigned()->default(0);
+            $table->tinyInteger('qualification_id')->unsigned()->default(0);
+            $table->mediumInteger('children_counter')->unsigned()->default(0);
         });
     }
 

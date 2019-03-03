@@ -10,8 +10,8 @@ class DistrictSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Address $address)
     {
-        Address::seeder('District');
+        $address->seeder('District');
     }
 }

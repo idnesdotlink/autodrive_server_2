@@ -4,12 +4,19 @@ namespace Autodrive\Repositories;
 
 use Illuminate\Support\Facades\{DB, Storage};
 use Autodrive\Models\{Member};
+use Ramsey\Uuid\Uuid;
+use Faker\Generator;
+use Faker\Provider\id_ID\Person;
+use Faker\Provider\id_ID\Address;
+use Faker\Provider\id_ID\PhoneNumber;
+use Faker\Provider\Internet;
 
 class Membership {
 
     public $member;
     public $db;
     public $level;
+    public $uuid;
 
     public function __construct(Member $member, DB $db) {
         $this->member = $member;
@@ -50,12 +57,27 @@ class Membership {
             $parent_end   = $accumulator['parent_end'];
             $siblings     = $accumulator['siblings'];
 
+            $x = function($parent_id, $data) {
+                return $data->whereStrict(0, $parent_id)->first()[3];
+            };
+
+            $faker = new Generator();
+            $faker->addProvider(new Person($faker));
+            $faker->addProvider(new Address($faker));
+            $faker->addProvider(new Internet($faker));
+            $faker->addProvider(new PhoneNumber($faker));
+
             for($parent_id = $parent_start; $parent_id <= $parent_end; $parent_id++) {
                 for($sibling = 1; $sibling <= $siblings; $sibling++) {
                     $data->push([
                         $ids,
                         ($parent_id === 0) ? null : $parent_id,
-                        $level['id']
+                        $level['id'],
+                        Uuid::uuid4()->toString(),
+                        $x($parent_id, $data),
+                        $faker->name,
+                        $faker->freeEmail,
+                        $faker->streetAddress
                     ]);
                     $ids++;
                     $nextEnd++;
@@ -78,7 +100,16 @@ class Membership {
         ]);
         $data = $data['data']->all();
         return [
-            'columns' => ['id', 'parent_id', 'level'],
+            'columns' => [
+                'id',
+                'parent_id',
+                'level',
+                'member_id',
+                'parent_member_id',
+                'name',
+                'email',
+                'address'
+            ],
             'rows' => $data
         ];
     }

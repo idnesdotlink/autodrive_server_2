@@ -15,7 +15,8 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('purchase_id')->unique();
+            $table->mediumInteger('member_id');
+            $table->uuid('member_uuid')->index();
             $table->timestamps();
             $table->double('amount', 10, 2);
         });

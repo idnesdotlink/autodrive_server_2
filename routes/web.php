@@ -17,23 +17,50 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use Autodrive\Repositories\Address;
+use Autodrive\Models\Province;
+use Autodrive\Models\Regency;
+use Autodrive\Models\District;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/address/{id}', function (Request $request, Address $address) {
-    DB::beginTransaction();
-    try {
-        $address = $address::all_code_from_village_code($request->id);
-        // throw new \Exception('error');
-    } catch(\Exception $error) {
-        dd($error);
-        DB::rollBack();
-    }
-    DB::commit();
-    dd($address);
+Route::group(['middleware' => ['json.response']], function () {
+    Route::prefix('jr')->group(function () {
+        Route::get('psg.json', function () {
+            return response(['test']);
+        });
+    });
 });
+Route::prefix('test')->group(function () {
+
+    Route::prefix('addr')->group(function () {
+        Route::get('/', function (Request $request, Province $province) {
+            $province->all()->map(
+                function ($province) {
+                    echo '<p><a href="' . route('test.regency', [$province->id]) . '">' . $province->name . '</a></p>';
+                }
+            );
+        })->name('test.province');
+
+        Route::get('/{province_id}', function (Request $request, Regency $regency) {
+            $regency->where('province_id', $request->province_id)->get()->map(
+                function ($regency) use($request) {
+                    echo '<p><a href="' . route('test.district', [$request->province_id, $regency->id]) . '">' . $regency->name . '</a></p>';
+                }
+            );
+        })->name('test.regency');
+
+        Route::get('/{province_id}/{regency_id}', function (Request $request, District $district) {
+            $district->where('regency_id', $request->regency_id)->get()->map(
+                function ($district) {
+                    echo '<p><a href="">' . $district->name . '</a></p>';
+                }
+            );
+        })->name('test.district');
+    });
+});
+
+
 
 Route::get('/test/{id}', function (Request $request, Membership $ms, Province $pv) {
 
@@ -93,7 +120,21 @@ Route::get('/test/{id}', function (Request $request, Membership $ms, Province $p
 
 });
 
-Route::get('/desc/{id}', function ($id) {
+Route::get('/ini', function () {
+    ini_set('max_execution_time', 90);
+    dd(ini_get_all());
+});
+
+Route::get('/mm', function (Membership $mm) {
+    ini_set('max_execution_time', 360);
+    return response()->json($mm->generate_seed(8));
+});
+
+Route::get('/now', function () {
+    dd(now('asia/jakarta')->toDateTimeString());
+});
+
+Route::get('/member/{id}', function ($id, Request $request, Member $member) {
     /* $member = new Members([
         'id' => 2,
         'parent_id' => 1,
@@ -105,29 +146,67 @@ Route::get('/desc/{id}', function ($id) {
 
     $member->save(); */
     // dd($id);
-
-    $members = Member::with('parent:id,parent_id,qualification_id');
+    // $member::find(1);
+    // dd($member);
+    // $members = Member::with('parent:id,parent_id,qualification_id');
     // dd($members->get()->first()->test);
-    dd($first->get()->whereStrict('id', (int) $id)->first()->parent);
+    // dd($first->get()->whereStrict('id', (int) $id)->first()->parent);
+        /* DB::beginTransaction();
+        try {
+        $pm = $member->find(1)->member_id;
+        $x = $member->find(2);
+        $x->parent_member_id = $pm;
+        $x->save();
+        DB::commit();
+        } catch(\Exception $e) {
+            dd($e);
+            DB::rollback();
+        } */
+        $x = $member->find(2)->member_parent;
+        dd($x);
 
+
+
+        // dd($member->where('id', 2)->with('member_parent', 'village', 'village.district', 'village.district.regency', 'village.district.regency.province')->get()->first());
 });
 
 Route::get('/rel', function () {
     // dd(Uuid::uuid4()->getBytes());
-    $json = '[{"id":1,"qualification_id":3,"parent_id":null},{"id":2,"qualification_id":2,"parent_id":1},{"id":3,"qualification_id":2,"parent_id":1},{"id":4,"qualification_id":2,"parent_id":1},{"id":5,"qualification_id":2,"parent_id":1},{"id":6,"qualification_id":1,"parent_id":2},{"id":7,"qualification_id":1,"parent_id":2},{"id":8,"qualification_id":1,"parent_id":2},{"id":9,"qualification_id":1,"parent_id":3},{"id":10,"qualification_id":1,"parent_id":3},{"id":11,"qualification_id":1,"parent_id":3},{"id":12,"qualification_id":1,"parent_id":4},{"id":13,"qualification_id":1,"parent_id":4},{"id":14,"qualification_id":1,"parent_id":4},{"id":15,"qualification_id":1,"parent_id":5},{"id":16,"qualification_id":1,"parent_id":5},{"id":17,"qualification_id":1,"parent_id":5}]';
 
-    $json = json_decode($json);
-
-    $json = collect($json);
-
-    $json->each(function($member) {
-        $member = ((array) $member);
-        $member['name'] = 'name ' . $member['id'];
-        // $member['member_id'] = Uuid::uuid4()->getBytes();
-        $memberI = new Member($member);
-        $memberI->save();
-        // print_r($member);
+    DB::transaction(function () {
+        $json = '[{"id":1,"qualification_id":3,"parent_id":null},{"id":2,"qualification_id":2,"parent_id":1},{"id":3,"qualification_id":2,"parent_id":1},{"id":4,"qualification_id":2,"parent_id":1},{"id":5,"qualification_id":2,"parent_id":1},{"id":6,"qualification_id":1,"parent_id":2},{"id":7,"qualification_id":1,"parent_id":2},{"id":8,"qualification_id":1,"parent_id":2},{"id":9,"qualification_id":1,"parent_id":3},{"id":10,"qualification_id":1,"parent_id":3},{"id":11,"qualification_id":1,"parent_id":3},{"id":12,"qualification_id":1,"parent_id":4},{"id":13,"qualification_id":1,"parent_id":4},{"id":14,"qualification_id":1,"parent_id":4},{"id":15,"qualification_id":1,"parent_id":5},{"id":16,"qualification_id":1,"parent_id":5},{"id":17,"qualification_id":1,"parent_id":5}]';
+        $json = json_decode($json);
+        $json = collect($json);
+        $json->each(function($member) {
+            $member = ((array) $member);
+            $member['name'] = 'name ' . $member['id'];
+            $member['village_id'] = '3372010009';
+            $memberI = new Member($member);
+            $memberI->save();
+            // print_r($member);
+        });
     });
 
 
+
+});
+
+Route::get('/truncate', function () {
+    DB::table('members')->truncate();
+    DB::table('users')->truncate();
+});
+
+Route::post('/authenticate', function (Request $request) {
+    // response()->json(['email' => request('email'), 'password' => request('password')]);
+
+    if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+        $user = Auth::user();
+        // return response()->json($user);
+        // $success['access_token'] =  $user->createToken('pac')->accessToken;
+        // $success['token_type'] = 'bearer';
+        return response()->json($user->createToken('pac')->accessToken, 200);
+    }
+    else{
+        return response()->json(['error'=>'Unauthorised'], 401);
+    }
 });

@@ -10,8 +10,8 @@ class ProvinceSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Address $address)
     {
-        Address::seeder('Province');
+        $address->seeder('Province');
     }
 }

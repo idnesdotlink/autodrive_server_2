@@ -40,9 +40,25 @@ class Member extends Authenticatable
         return parent::hasCast($key, $types);
     }
 
+    public function member_parent() {
+        return $this->hasOne(Member::class, 'member_id', 'parent_member_id');
+    }
+
     public function parent()
     {
         return $this->hasOne(Member::class, 'id', 'parent_id');
+    }
+
+    public function village() {
+        return $this->belongsTo(Village::class);
+    }
+
+    public function district() {
+        return $this->village()->with('district');
+    }
+
+    public function regency() {
+        return $this->district()->with('regency');
     }
 
     public function children()
