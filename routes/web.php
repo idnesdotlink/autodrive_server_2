@@ -210,3 +210,7 @@ Route::post('/authenticate', function (Request $request) {
         return response()->json(['error'=>'Unauthorised'], 401);
     }
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
