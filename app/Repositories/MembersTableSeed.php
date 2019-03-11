@@ -11,7 +11,7 @@ use Faker\Provider\id_ID\Address;
 use Faker\Provider\id_ID\PhoneNumber;
 use Faker\Provider\Internet;
 
-class Membership {
+class MembersTableSeed {
 
     public $member;
     public $db;
@@ -57,8 +57,12 @@ class Membership {
             $parent_end   = $accumulator['parent_end'];
             $siblings     = $accumulator['siblings'];
 
-            $x = function($parent_id, $data) {
-                return $data->whereStrict(0, $parent_id)->first()[3];
+            print_r($parent_end);
+
+            $find = function($parent_id, $data) {
+                return $data
+                    ->whereStrict(0, $parent_id)
+                    ->first()[3];
             };
 
             $faker = new Generator();
@@ -74,7 +78,7 @@ class Membership {
                         ($parent_id === 0) ? null : $parent_id,
                         $level['id'],
                         Uuid::uuid4()->toString(),
-                        $x($parent_id, $data),
+                        $find($parent_id, $data),
                         $faker->name,
                         $faker->freeEmail,
                         $faker->streetAddress
@@ -91,13 +95,16 @@ class Membership {
                 'data' => $data
             ];
         };
-        $data = $level->reduce($create_scenario, [
-            'ids' => 1,
-            'parent_start' => 0,
-            'parent_end' => 0,
-            'siblings' => 1,
-            'data' => collect([])
-        ]);
+        $data = $level->reduce(
+            $create_scenario,
+            [
+                'ids' => 1,
+                'parent_start' => 0,
+                'parent_end' => 0,
+                'siblings' => 1,
+                'data' => collect([])
+            ]
+        );
         $data = $data['data']->all();
         return [
             'columns' => [

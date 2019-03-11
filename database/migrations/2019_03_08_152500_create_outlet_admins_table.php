@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePurchasesTable extends Migration
+class CreateOutletAdminsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreatePurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchases', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->mediumInteger('member_id');
-            $table->uuid('member_uuid')->index();
-            $table->timestamps();
-            $table->double('amount', 10, 2);
+        Schema::create('outlet_admins', function (Blueprint $table) {
+            $table->uuid('outlet_admin_uuid')->index();
+            $table->uuid('outlet_uuid')->index();
         });
     }
 
@@ -29,6 +26,6 @@ class CreatePurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchases');
+        Schema::dropIfExists('outlet_admins');
     }
 }

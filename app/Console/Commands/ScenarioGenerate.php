@@ -3,8 +3,9 @@
 namespace Autodrive\Console\Commands;
 
 use Illuminate\Console\Command;
-use Autodrive\Repositories\Scenario;
-
+use Autodrive\Repositories\MembersTableSeed;
+use Illuminate\Support\Facades\{DB, Storage, Hash};
+use Autodrive\Models\User;
 class ScenarioGenerate extends Command
 {
     /**
@@ -12,7 +13,7 @@ class ScenarioGenerate extends Command
      *
      * @var string
      */
-    protected $signature = 'scenario:generate';
+    protected $signature = 'scenario:generate {depth?} {--save} {--no-progress}';
 
     /**
      * The console command description.
@@ -36,9 +37,22 @@ class ScenarioGenerate extends Command
      *
      * @return mixed
      */
-    public function handle(Scenario $scenario)
+    public function handle(MembersTableSeed $membersTableSeed)
     {
-        //
-        print_r(json_encode($scenario->level()[1]['name']));
+
+        $depth = (int) $this->arguments()['depth'];
+        $this->line($depth);
+        $user_table = DB::table('users');
+        $member_table = DB::table('members');
+        $user_table->truncate();
+        $member_table->truncate();
+
+        User::create([
+            'name'     => 'admin',
+            'email'    => 'admin@localhost',
+            'password' => Hash::make('12345678'),
+        ]);
+
+        print_r($membersTableSeed->generate_seed($depth));
     }
 }

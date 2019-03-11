@@ -7,17 +7,19 @@
     "license": "MIT",
     "require": {
         "php": "^7.1.3",
-        "dyrynda/laravel-efficient-uuid": "~2.2",
-        "dyrynda/laravel-model-uuid": "~4.1",
+        "dyrynda/laravel-efficient-uuid": "^2.2",
+        "dyrynda/laravel-model-uuid": "^4.1",
         "fideloper/proxy": "^4.0",
+        "jenssegers/mongodb": "^3.5",
+        "jenssegers/mongodb-session": "^1.2",
         "kreait/firebase-php": "^4.19",
         "laravel/framework": "5.7.*",
         "laravel/passport": "^7.2",
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
         "ramsey/uuid": "^3.8",
-        "spatie/laravel-cors": "^1.3",
-        "spatie/laravel-permission": "^2.33"
+        "spatie/laravel-cors": "^1.4",
+        "spatie/laravel-permission": "^2.36"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -131,7 +131,7 @@ Route::get('/mm', function (Membership $mm) {
 });
 
 Route::get('/now', function () {
-    dd(now('asia/jakarta')->toDateTimeString());
+    dd(now()->toDateTimeString());
 });
 
 Route::get('/member/{id}', function ($id, Request $request, Member $member) {
@@ -211,6 +211,13 @@ Route::post('/authenticate', function (Request $request) {
     }
 });
 
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');
+
 Auth::routes();
+/* Route::get('/', function () {
+    return response('test');
+})->name('login'); */
 
 Route::get('/home', 'HomeController@index')->name('home');
