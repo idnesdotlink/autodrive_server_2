@@ -57,8 +57,6 @@ class MembersTableSeed {
             $parent_end   = $accumulator['parent_end'];
             $siblings     = $accumulator['siblings'];
 
-            print_r($parent_end);
-
             $find = function($parent_id, $data) {
                 return $data
                     ->whereStrict(0, $parent_id)

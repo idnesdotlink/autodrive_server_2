@@ -14,7 +14,8 @@ class CreatePromotionsTable extends Migration
     public function up()
     {
         Schema::create('promotions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->index();
+            $table->uuid('products_uuid')->index();
             $table->timestamps();
         });
     }

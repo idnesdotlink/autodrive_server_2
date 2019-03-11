@@ -37,22 +37,24 @@ class ScenarioGenerate extends Command
      *
      * @return mixed
      */
-    public function handle(MembersTableSeed $membersTableSeed)
+    public function handle(MembersTableSeed $membersTableSeed, Storage $storage)
     {
 
         $depth = (int) $this->arguments()['depth'];
         $this->line($depth);
         $user_table = DB::table('users');
         $member_table = DB::table('members');
-        $user_table->truncate();
+        // $user_table->truncate();
         $member_table->truncate();
-
-        User::create([
+        $disk = $storage::disk('coba');
+        // print_r($disk);
+        /* User::create([
             'name'     => 'admin',
             'email'    => 'admin@localhost',
             'password' => Hash::make('12345678'),
-        ]);
+        ]); */
 
-        print_r($membersTableSeed->generate_seed($depth));
+        $x = $membersTableSeed->generate_seed($depth);
+        $disk->put('test2.json', json_encode($x));
     }
 }

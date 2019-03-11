@@ -58,6 +58,16 @@ return [
             'root' => app_path('data/area'),
         ],
 
+        'dummy' => [
+            'driver' => 'local',
+            'root' => app_path('data/dummy'),
+        ],
+
+        'coba' => [
+            'driver' => 'local',
+            'root' => app_path('data/coba'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
