@@ -14,7 +14,7 @@ class CreateOutletAdminsTable extends Migration
     public function up()
     {
         Schema::create('outlet_admins', function (Blueprint $table) {
-            $table->uuid('outlet_admin_uuid')->index();
+            $table->uuid('id')->index();
             $table->uuid('outlet_uuid')->index();
         });
     }

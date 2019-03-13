@@ -34,6 +34,10 @@ class Member extends Authenticatable
         return Uuid::uuid4()->fromString($value)->getBytes();
     } */
 
+    public function user() {
+        return $this->belongsTo(User::class, 'user_member_id');
+    }
+
     public function hasCast($key, $types = null) {
         if($key === $this->uuidColumn() && $types === 'uuid') return true;
         // dd($types);

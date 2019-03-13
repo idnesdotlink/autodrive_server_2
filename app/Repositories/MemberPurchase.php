@@ -3,5 +3,5 @@
 namespace Autodrive\Repositories;
 
 class MemberPurchase {
-
+    
 }

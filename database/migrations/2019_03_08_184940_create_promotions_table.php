@@ -15,7 +15,7 @@ class CreatePromotionsTable extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->uuid('id')->index();
-            $table->uuid('products_uuid')->index();
+            $table->uuid('products_id')->index();
             $table->timestamps();
         });
     }
